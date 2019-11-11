@@ -1,10 +1,6 @@
 <template>
   <div class="search">
-    <header class="header">
-      <a class="header_title">
-        <span class="header_title_text">搜索</span>
-      </a>
-    </header>
+    <HeaderTop title="搜索"></HeaderTop>
     <form class="search_form" action="#">
       <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input" />
       <input type="submit" name="submit" class="search_submit" />
@@ -13,33 +9,19 @@
 </template>
 
 <script>
-export default {}
+import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
+export default {
+  components: {
+    HeaderTop
+  }
+}
 </script>
 
 <style lang="stylus">
 @import '../../common/stylus/mixins.styl'
 .search // 搜索
   width 100%
-  .header
-    background-color #02a774
-    position fixed
-    z-index 100
-    left 0
-    top 0
-    width 100%
-    height 45px
-    .header_title
-      position absolute
-      top 50%
-      left 50%
-      transform translate(-50%, -50%)
-      width 50%
-      color #fff
-      text-align center
-      .header_title_text
-        font-size 20px
-        color #fff
-        display block
+  overflow hidden
   .search_form
     clearFix()
     margin-top 45px
