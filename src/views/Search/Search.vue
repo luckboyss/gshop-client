@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '../../common/stylus/mixins.styl'
 .search // 搜索
   width 100%

@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '../../common/stylus/mixins.styl'
 &.profile // 我的
   width 100%

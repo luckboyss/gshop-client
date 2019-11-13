@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '../../common/stylus/mixins.styl'
 .order // 订单
   width 100%

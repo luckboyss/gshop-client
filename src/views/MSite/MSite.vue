@@ -11,7 +11,7 @@
     </HeaderTop>
     <!--首页导航-->
     <nav class="msite_nav">
-      <div class="swiper-container">
+      <div class="swiper-container" v-if="categorys.length">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(categorys, index) in categorysArr" :key="index">
             <a href="javascript:" class="link_to_food" v-for="(category, index) in categorys" :key="index">
@@ -28,6 +28,7 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
       </div>
+      <img src="./images/msite_back.svg" alt="back" v-else />
     </nav>
     <!--首页附近商家-->
     <div class="msite_shop_list">
@@ -99,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '../../common/stylus/mixins.styl'
 .msite
   width 100%
