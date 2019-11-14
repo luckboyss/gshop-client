@@ -2,17 +2,17 @@
   <div class="profile">
     <HeaderTop title="我的"></HeaderTop>
     <section class="profile-number">
-      <router-link to="/login" class="profile-link">
+      <router-link :to="userInfo._id ? '/userinfo' : '/login'" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icongeren"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top" v-if="!userInfo.phone">{{ userInfo.name || '登录/注册' }}</p>
           <p>
             <span class="user-icon">
               <i class="iconfont icon-shouji iconshouji"></i>
             </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">{{ userInfo.phone || '暂无绑定手机号' }}</span>
           </p>
         </div>
         <span class="arrow">
@@ -88,12 +88,35 @@
         </div>
       </a>
     </section>
+    <section>
+      <van-button type="danger" style="width: 100%" v-if="userInfo._id" @click="logout">退出登录</van-button>
+    </section>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { Dialog, Toast } from 'vant'
 import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
 export default {
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    logout() {
+      Dialog.confirm({
+        title: '提示',
+        message: '确认退出吗？'
+      })
+        .then(() => {
+          this.$store.dispatch('logout')
+          Toast('登出成功')
+        })
+        .catch(() => {
+          // on cancel
+        })
+    }
+  },
   components: {
     HeaderTop
   }

@@ -1,5 +1,5 @@
-import { RECEIVE_ADRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS } from './mutation-type'
-import { reqAddress, reqFoodCategorys, reqShops } from '../api'
+import { RECEIVE_ADRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS, RECEIVE_USER_INFO, RESET_USER_INFO } from './mutation-type'
+import { reqAddress, reqFoodCategorys, reqShops, reqUserinfo, reqLogOut } from '../api'
 const actions = {
   async getAddress({ commit, state }) {
     const geohash = state.latitude + ',' + state.longitude
@@ -22,6 +22,22 @@ const actions = {
     if (result.code === 0) {
       const shops = result.data
       commit(RECEIVE_SHOPS, { shops })
+    }
+  },
+  recordUser({ commit }, userInfo) {
+    commit(RECEIVE_USER_INFO, { userInfo })
+  },
+  async getUserInfo({ commit }) {
+    const result = await reqUserinfo()
+    if (result.code === 0) {
+      const userInfo = result.data
+      commit(RECEIVE_USER_INFO, { userInfo })
+    }
+  },
+  async logout({ commit }) {
+    const result = await reqLogOut()
+    if (result.code === 0) {
+      commit(RESET_USER_INFO)
     }
   }
 }

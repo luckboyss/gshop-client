@@ -45,7 +45,13 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha" />
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha" />
+                <img
+                  class="get_verification"
+                  src="http://localhost:4000/captcha"
+                  alt="captcha"
+                  @click="getCaptcha"
+                  ref="captcha"
+                />
               </section>
             </section>
           </div>
@@ -63,6 +69,7 @@
 
 <script>
 import AlertTip from '@/components/AlertTip/AlertTip.vue'
+import { reqPwdLogin, reqSmsLogin, reqSendCode } from '@/api'
 export default {
   data() {
     return {
@@ -84,35 +91,65 @@ export default {
     }
   },
   methods: {
-    getCode() {
+    async getCode() {
       if (this.restTime > 0) {
         return
       }
       this.restTime = 30
-      const intervalId = setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.restTime--
         if (this.restTime <= 0) {
-          clearInterval(intervalId)
+          clearInterval(this.intervalId)
         }
       }, 1000)
+      const result = await reqSendCode(this.phone)
+      if (result.code === 1) {
+        this.showAlert(result.msg)
+        if (this.restTime) {
+          this.restTime = 0
+          clearInterval(this.intervalId)
+        }
+      }
     },
-    login() {
+    async login() {
+      let result
       if (!this.pwdLogin) {
-        const { code, rightPhone } = this
+        const { phone, code, rightPhone } = this
         if (!rightPhone) {
           this.showAlert('手机号码不正确')
+          return
         } else if (!/^\d{6}$/.test(code)) {
           this.showAlert('验证码必须是6位数字')
+          return
         }
+        result = await reqSmsLogin({ phone, code })
       } else {
         const { name, pwd, captcha } = this
         if (!name) {
           this.showAlert('必须输入用户名')
+          return
         } else if (!pwd) {
           this.showAlert('必须输入密码')
+          return
         } else if (!captcha) {
           this.showAlert('必须输入验证码')
+          return
         }
+        result = await reqPwdLogin({ name, pwd, captcha })
+      }
+
+      if (this.restTime) {
+        this.restTime = 0
+        clearInterval(this.intervalId)
+      }
+      if (result.code === 0) {
+        const user = result.data
+        this.$store.dispatch('recordUser', user)
+        this.$router.replace('/profile')
+      } else {
+        this.getCaptcha()
+        const msg = result.msg
+        this.showAlert(msg)
       }
     },
     showAlert(alertText) {
@@ -122,6 +159,9 @@ export default {
     closeTip() {
       this.alertShow = false
       this.alertText = ''
+    },
+    getCaptcha() {
+      this.$refs.captcha.src = 'http://localhost:4000/captcha?time' + Date.now()
     }
   },
   components: {

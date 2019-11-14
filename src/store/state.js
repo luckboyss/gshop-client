@@ -3,6 +3,7 @@ const state = {
   latitude: 40.10038,
   address: {},
   categorys: [],
-  shops: []
+  shops: [],
+  userInfo: {}
 }
 export default state
