@@ -33,7 +33,7 @@
 export default {
   methods: {
     goTo(path) {
-      this.$router.replace(path)
+      this.$router.replace(path).catch(() => {})
     }
   }
 }

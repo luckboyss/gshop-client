@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '',
+    redirect: '/msite'
+  },
+  {
     path: '/msite',
     name: 'msite',
     component: () => import(/* webpackChunkName: "msite" */ '@/views/MSite/MSite.vue'),
@@ -40,6 +44,31 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/Login/Login.vue')
+  },
+  {
+    path: '/shop',
+    component: () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue'),
+    children: [
+      {
+        path: '',
+        redirect: '/shop/goods'
+      },
+      {
+        path: '/shop/goods',
+        name: 'goods',
+        component: () => import(/* webpackChunkName: "shopGoods" */ '@/views/Shop/ShopGoods/ShopGoods.vue')
+      },
+      {
+        path: '/shop/ratings',
+        name: 'shopRatings',
+        component: () => import(/* webpackChunkName: "shopRatings" */ '@/views/Shop/ShopRatings/ShopRatings.vue')
+      },
+      {
+        path: '/shop/info',
+        name: 'shopInfo',
+        component: () => import(/* webpackChunkName: "shopInfo" */ '@/views/Shop/ShopInfo/ShopInfo.vue')
+      }
+    ]
   }
 ]
 

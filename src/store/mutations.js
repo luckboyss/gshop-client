@@ -1,4 +1,13 @@
-import { RECEIVE_ADRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS, RECEIVE_USER_INFO, RESET_USER_INFO } from './mutation-type'
+import {
+  RECEIVE_ADRESS,
+  RECEIVE_CATEGORYS,
+  RECEIVE_SHOPS,
+  RECEIVE_USER_INFO,
+  RESET_USER_INFO,
+  RECEIVE_INFO,
+  RECEIVE_RATINGS,
+  RECEIVE_GOODS
+} from './mutation-type'
 
 const mutations = {
   [RECEIVE_ADRESS](state, { address }) {
@@ -15,6 +24,15 @@ const mutations = {
   },
   [RESET_USER_INFO](state) {
     state.userInfo = {}
+  },
+  [RECEIVE_INFO](state, { info }) {
+    state.info = info
+  },
+  [RECEIVE_RATINGS](state, { ratings }) {
+    state.ratings = ratings
+  },
+  [RECEIVE_GOODS](state, { goods }) {
+    state.goods = goods
   }
 }
 export default mutations

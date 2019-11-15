@@ -3,10 +3,7 @@ ajax函数请求模块
 */
 import axios from 'axios'
 
-const BASE_URL = '/api'
-
 export default function ajax(url, data = {}, type = 'GET') {
-  url = BASE_URL + url
   return new Promise(function(resolve, reject) {
     let promise
     if (type === 'GET') {

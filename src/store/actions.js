@@ -1,5 +1,23 @@
-import { RECEIVE_ADRESS, RECEIVE_CATEGORYS, RECEIVE_SHOPS, RECEIVE_USER_INFO, RESET_USER_INFO } from './mutation-type'
-import { reqAddress, reqFoodCategorys, reqShops, reqUserinfo, reqLogOut } from '../api'
+import {
+  RECEIVE_ADRESS,
+  RECEIVE_CATEGORYS,
+  RECEIVE_SHOPS,
+  RECEIVE_USER_INFO,
+  RESET_USER_INFO,
+  RECEIVE_GOODS,
+  RECEIVE_RATINGS,
+  RECEIVE_INFO
+} from './mutation-type'
+import {
+  reqAddress,
+  reqFoodCategorys,
+  reqShops,
+  reqUserinfo,
+  reqLogOut,
+  reqShopInfo,
+  reqShopRatings,
+  reqShopGoods
+} from '../api'
 const actions = {
   async getAddress({ commit, state }) {
     const geohash = state.latitude + ',' + state.longitude
@@ -38,6 +56,27 @@ const actions = {
     const result = await reqLogOut()
     if (result.code === 0) {
       commit(RESET_USER_INFO)
+    }
+  },
+  async getShopInfo({ commit }) {
+    const result = await reqShopInfo()
+    if (result.code === 0) {
+      const info = result.data
+      commit(RECEIVE_INFO, { info })
+    }
+  },
+  async getShopRatings({ commit }) {
+    const result = await reqShopRatings()
+    if (result.code === 0) {
+      const ratings = result.data
+      commit(RECEIVE_RATINGS, { ratings })
+    }
+  },
+  async getShopGoods({ commit }) {
+    const result = await reqShopGoods()
+    if (result.code === 0) {
+      const goods = result.data
+      commit(RECEIVE_GOODS, { goods })
     }
   }
 }

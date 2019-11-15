@@ -1,9 +1,10 @@
 import Vue from 'vue'
+import { Button } from 'vant'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './mock/mockServer'
 import '../static/css/reset.css'
-import { Button } from 'vant'
 
 Vue.use(Button)
 Vue.config.productionTip = false

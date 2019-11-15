@@ -4,6 +4,9 @@ const state = {
   address: {},
   categorys: [],
   shops: [],
-  userInfo: {}
+  userInfo: {},
+  goods: [],
+  ratings: [],
+  info: {}
 }
 export default state
