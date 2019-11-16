@@ -1,2 +1,9 @@
-const getters = {}
+const getters = {
+  totalCount(state) {
+    return state.cartFoods.reduce((preTotal, food) => preTotal + food.count, 0)
+  },
+  totalPrice(state) {
+    return state.cartFoods.reduce((preTotal, food) => preTotal + food.price * food.count, 0)
+  }
+}
 export default getters

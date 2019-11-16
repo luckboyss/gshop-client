@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {
   RECEIVE_ADRESS,
   RECEIVE_CATEGORYS,
@@ -6,7 +7,10 @@ import {
   RESET_USER_INFO,
   RECEIVE_INFO,
   RECEIVE_RATINGS,
-  RECEIVE_GOODS
+  RECEIVE_GOODS,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT,
+  EMPTY_CART
 } from './mutation-type'
 
 const mutations = {
@@ -33,6 +37,28 @@ const mutations = {
   },
   [RECEIVE_GOODS](state, { goods }) {
     state.goods = goods
+  },
+  [INCREMENT_FOOD_COUNT](state, { food }) {
+    if (!food.count) {
+      Vue.set(food, 'count', 1) // 让新增的属性也有数据绑定
+      state.cartFoods.push(food)
+    } else {
+      food.count++
+    }
+  },
+  [DECREMENT_FOOD_COUNT](state, { food }) {
+    if (food.count) {
+      food.count--
+      if (food.count === 0) {
+        state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
+      }
+    }
+  },
+  [EMPTY_CART](state) {
+    state.cartFoods.forEach((food) => {
+      food.count = 0
+    })
+    state.cartFoods = []
   }
 }
 export default mutations

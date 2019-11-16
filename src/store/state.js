@@ -7,6 +7,7 @@ const state = {
   userInfo: {},
   goods: [],
   ratings: [],
-  info: {}
+  info: {},
+  cartFoods: []
 }
 export default state

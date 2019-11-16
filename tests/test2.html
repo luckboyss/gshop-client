@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .markdown :not(.exclude){
+      color: #009a61;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="markdown">
+    <a href="#/install">安装1</a>
+    <p><a href="#/install">安装2</a></p>
+    <div class="markdown-exclude">
+      <a href="#/install" class="exclude">安装3</a>
+      <div>
+        <a href="#/install" class="exclude">安装4</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
