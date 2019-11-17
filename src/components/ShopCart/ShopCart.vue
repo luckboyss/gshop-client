@@ -20,7 +20,7 @@
         <div class="shopcart-list" v-show="_listShow()">
           <div class="list-header">
             <h1 class="title">购物车</h1>
-            <span class="empty" @click="emptyCart">清空</span>
+            <span class="empty" @click="clearCart">清空</span>
           </div>
           <div class="list-content">
             <ul>
@@ -38,13 +38,16 @@
         </div>
       </transition>
     </div>
-    <div class="list-mask" v-show="_listShow()" @click="toggleShow"></div>
+    <transition name="fade">
+      <div class="list-mask" v-show="_listShow()" @click="toggleShow"></div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { Dialog } from 'vant'
+import BScroll from 'better-scroll'
 import CartControl from '../CartControl/CartControl.vue'
 export default {
   data() {
@@ -81,13 +84,13 @@ export default {
       }
       this.isShow = !this.isShow
     },
-    emptyCart() {
+    clearCart() {
       Dialog.confirm({
         title: '提示',
         message: '确认清空购物车吗？'
       })
         .then(() => {
-          this.$store.dispatch('emptyCart')
+          this.$store.dispatch('clearCart')
         })
         .catch(() => {})
     },
@@ -95,9 +98,19 @@ export default {
       if (this.totalCount === 0) {
         this.isShow = false
         return false
-      } else {
-        return this.isShow
       }
+      if (this.isShow) {
+        this.$nextTick(() => {
+          if (!this.scroll) {
+            this.scroll = new BScroll('.list-content', {
+              click: true
+            })
+          } else {
+            this.scroll.refresh()
+          }
+        })
+      }
+      return this.isShow
     }
   },
   components: {
@@ -270,7 +283,7 @@ export default {
   opacity 1
   background rgba(7, 17, 27, 0.6)
   &.fade-enter-active, &.fade-leave-active
-    transition all 0.5s
+    transition all 0.3s
   &.fade-enter, &.fade-leave-to
     opacity 0
     background rgba(7, 17, 27, 0)

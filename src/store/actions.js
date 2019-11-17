@@ -9,7 +9,7 @@ import {
   RECEIVE_INFO,
   INCREMENT_FOOD_COUNT,
   DECREMENT_FOOD_COUNT,
-  EMPTY_CART
+  CLEAR_CART
 } from './mutation-type'
 import {
   reqAddress,
@@ -68,11 +68,12 @@ const actions = {
       commit(RECEIVE_INFO, { info })
     }
   },
-  async getShopRatings({ commit }) {
+  async getShopRatings({ commit }, callback) {
     const result = await reqShopRatings()
     if (result.code === 0) {
       const ratings = result.data
       commit(RECEIVE_RATINGS, { ratings })
+      callback && callback()
     }
   },
   async getShopGoods({ commit }, callback) {
@@ -90,8 +91,8 @@ const actions = {
       commit(DECREMENT_FOOD_COUNT, { food })
     }
   },
-  emptyCart({ commit }) {
-    commit(EMPTY_CART)
+  clearCart({ commit }) {
+    commit(CLEAR_CART)
   }
 }
 export default actions

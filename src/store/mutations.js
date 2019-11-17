@@ -10,7 +10,7 @@ import {
   RECEIVE_GOODS,
   INCREMENT_FOOD_COUNT,
   DECREMENT_FOOD_COUNT,
-  EMPTY_CART
+  CLEAR_CART
 } from './mutation-type'
 
 const mutations = {
@@ -54,7 +54,7 @@ const mutations = {
       }
     }
   },
-  [EMPTY_CART](state) {
+  [CLEAR_CART](state) {
     state.cartFoods.forEach((food) => {
       food.count = 0
     })
